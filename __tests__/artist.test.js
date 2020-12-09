@@ -53,4 +53,22 @@ describe('CRUD routes for Artist model', () => {
 
   });
 
+  it('Finds an artist by id via GET', async() => {
+    const artist = await Artist.insert({
+      name: 'Lane 8',
+      genre: 'deep house'    
+    });
+
+    const res = await request(app)
+      .get(`/api/v1/artists/${artist.id}`);
+
+    expect(res.body).toEqual({
+      id: '1',
+      name: 'Lane 8',
+      genre: 'deep house'
+    });
+  });
+
+  
+
 });
