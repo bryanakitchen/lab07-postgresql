@@ -55,8 +55,8 @@ describe('CRUD routes for Artist model', () => {
 
   it('Finds an artist by id via GET', async() => {
     const artist = await Artist.insert({
-      name: 'Lane 8',
-      genre: 'deep house'    
+      name: 'Lights',
+      genre: 'electropop'    
     });
 
     const res = await request(app)
@@ -64,11 +64,49 @@ describe('CRUD routes for Artist model', () => {
 
     expect(res.body).toEqual({
       id: '1',
-      name: 'Lane 8',
-      genre: 'deep house'
+      name: 'Lights',
+      genre: 'electropop'
     });
   });
 
-  
+  it('Updates an artist by id via PUT', async() => {
+    const artist = await Artist.insert({
+      name: 'Felix Cartal',
+      genre: 'house'    
+    });
+
+    const res = await request(app)
+      .put(`/api/v1/artists/${artist.id}`)
+      .send({
+        name: 'Felix Cartal',
+        genre: 'electro house'
+      });
+
+    expect(res.body).toEqual({
+      id: artist.id,
+      name: 'Felix Cartal',
+      genre: 'electro house'
+    });
+  });
+
+  it('Removes an artist by id via DELETE', async() => {
+    const artist = await Artist.insert({
+      name: 'Outkast',
+      genre: 'hip hop'
+    });
+
+    const res = await request(app)
+      .delete(`/api/v1/artists/${artist.id}`)
+      .send({
+        name: 'Outkast',
+        genre: 'hip hop'
+      });
+
+    expect(res.body).toEqual({
+      id: artist.id,
+      name: 'Outkast',
+      genre: 'hip hop'
+    });
+  });
 
 });
