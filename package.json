@@ -27,6 +27,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "file-server": "^2.1.0",
     "pg": "^8.5.1",
     "supertest": "^6.0.1"
   }
