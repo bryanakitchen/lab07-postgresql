@@ -37,7 +37,7 @@ describe('CRUD routes for Artist model', () => {
     expect(res.body).toHaveLength(artists.length);
   });
 
-  it('Adds an artist via PUT', async() => {
+  it('Adds an artist via POST', async() => {
     const res = await request(app)
       .post('/api/v1/artists')
       .send({

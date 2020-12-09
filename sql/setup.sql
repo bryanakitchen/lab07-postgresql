@@ -11,5 +11,5 @@ CREATE TABLE albums (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title TEXT NOT NULL,
     year INTEGER NOT NULL,
-    artist_id BIGINT REFERENCES artists(id)
+    artist_id BIGINT NOT NULL REFERENCES artists(id) 
 );
