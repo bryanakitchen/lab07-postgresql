@@ -3,6 +3,7 @@ const pool = require('../lib/utils/pool');
 const app = require('../lib/app');
 const request = require('supertest');
 const Artist = require('../lib/models/Artist');
+const Album = require('../lib/models/Album');
 
 describe('CRUD routes for Artist model', () => {
 
@@ -53,19 +54,37 @@ describe('CRUD routes for Artist model', () => {
 
   });
 
-  it('Finds an artist by id via GET', async() => {
+  it('Finds an artist by id and associated albums via GET', async() => {
     const artist = await Artist.insert({
-      name: 'Lights',
-      genre: 'electropop'    
+      name: 'Outkast',
+      genre: 'hip hop'
     });
+
+    const albums = await Promise.all([
+      {
+        title: 'ATLiens',
+        year: '1996',
+        artistId: artist.id
+      },
+      {
+        title: 'Aquemini',
+        year: '1998',
+        artistId: artist.id
+      },
+      {
+        title: 'Stankonia',
+        year: '2000',
+        artistId: artist.id
+      },
+    ].map(album => Album.insert(album)));
+  
 
     const res = await request(app)
       .get(`/api/v1/artists/${artist.id}`);
 
     expect(res.body).toEqual({
-      id: '1',
-      name: 'Lights',
-      genre: 'electropop'
+      ...artist,
+      albums: expect.arrayContaining(albums)
     });
   });
 
